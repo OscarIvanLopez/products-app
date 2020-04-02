@@ -1,6 +1,36 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux'
+import { editarProductoAction } from '../actions/productoActions'
+
+
 
 const EditarProducto = () => {
+
+    //Nuevo state de producto
+    const [producto, gaurdarProducto] = useState({
+        nombre: '',
+        precio: ''
+    })
+
+
+    //Producto a editar
+    const productoeditar = useSelector(state => state.productos.productoeditar);
+
+    //!Llenar el state automaticamente
+    useEffect(() => {
+        gaurdarProducto(productoeditar);
+    }, [productoeditar]);
+
+
+    const { nombre, precio, id } = producto;
+
+    const submitEditarProducto = e => {
+        e.preventDefault();
+
+
+        editarProductoAction()
+    }
+
     return (
         <div className="row justify-content-center">
             <div className="col-md-8">
@@ -10,7 +40,9 @@ const EditarProducto = () => {
                             Editar Producto
                         </h2>
 
-                        <form action="">
+                        <form
+                            onSubmit={submitEditarProducto}
+                        >
                             <div className="form-group">
                                 <label>Nombre Producto</label>
                                 <input
@@ -18,6 +50,7 @@ const EditarProducto = () => {
                                     className="form-control"
                                     placeholder="Nombre Producto"
                                     name="nombre"
+                                    value={nombre}
                                 />
                             </div>
 
@@ -28,6 +61,7 @@ const EditarProducto = () => {
                                     className="form-control"
                                     placeholder="Precio Producto"
                                     name="precio"
+                                    value={precio}
                                 />
                             </div>
 
